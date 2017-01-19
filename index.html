@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<style>
+@media only screen and (max-width: 800px) {
+	.less-padding{padding-left:10% !important}
+}
+
+</style>
+</head>
+<body bgcolor="#E9C5D8">
+
+
+<div align="center" style="padding-top:30px; width:100%">
+<span style="font-size:48px; line-height:50px; font-family:Arial, Helvetica, sans-serif, Geneva, sans-serif; font-weight:bold; color: #333333">TO-DO LIST</span>
+</div>
+<div align="center" width="100%" style="padding-top:60px">
+<div style="width:100%; max-width:900px" align="center">
+    <div>
+    <input type="text" id="inputText" style="width:80%; max-width:500px; display:inline-block"/>
+    <input type="button" value="OK" id="addButton" style="display:inline"/>
+    </div>
+
+    <div align="center" style="text-align:center">
+    
+    <ul id="lista" style="text-align:left; padding-left:22%" class="less-padding">
+   
+    </ul>
+    
+    </div>
+</div>
+</div>
+
+<script type="application/javascript">
+
+
+var button = document.getElementById("addButton");
+
+
+function addToList(){
+	var ul = document.getElementById("lista");
+	var li = document.createElement("li");
+	var texto=document.getElementById("inputText");
+	
+	li.appendChild(document.createTextNode(texto.value));
+	ul.appendChild(li);
+	texto.value="";
+}
+
+document.getElementById("inputText").addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode == 13) {
+        document.getElementById("addButton").click();
+    }
+});
+
+
+button.onclick=addToList;
+
+</script>
+
+</body>
+</html>
