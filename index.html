@@ -22,11 +22,11 @@
     </div>
 
     <div align="center" style="text-align:center">
-    
+
     <ul id="lista" style="text-align:left; padding-left:22%" class="less-padding">
-   
+
     </ul>
-    
+
     </div>
 </div>
 </div>
@@ -37,15 +37,27 @@
 var button = document.getElementById("addButton");
 
 
-function addToList(){
-	var ul = document.getElementById("lista");
-	var li = document.createElement("li");
-	var texto=document.getElementById("inputText");
-	
-	li.appendChild(document.createTextNode(texto.value));
-	ul.appendChild(li);
-	texto.value="";
-}
+function item (desc){
+		this.desc= desc;
+};
+
+var lista= (function(){
+	var itemsList=[];
+
+	return{
+		addItem : function(){
+			var newItem = new item(document.getElementById('inputText').value);
+
+			itemsList.push(newItem);
+			showList();
+		},
+
+		returnItems : function(){
+			return itemsList;
+		}
+
+	}
+})();
 
 document.getElementById("inputText").addEventListener("keyup", function(event) {
     event.preventDefault();
@@ -54,8 +66,26 @@ document.getElementById("inputText").addEventListener("keyup", function(event) {
     }
 });
 
+function showList(){
+	var ul = document.getElementById("lista");
+	if (ul) {
+     while (ul.firstChild) {
+       ul.removeChild(ul.firstChild);
 
-button.onclick=addToList;
+		 }
+	}
+	var texto = document.getElementById("inputText");
+  var itemsList = lista.returnItems();
+
+	for (var i=0; i< itemsList.length; i++) {
+			var li = document.createElement("li");
+			li.appendChild(document.createTextNode(itemsList[i].desc));
+			ul.appendChild(li);
+			texto.value="";
+	}
+}
+
+button.onclick=lista.addItem;
 
 </script>
 
