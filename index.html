@@ -68,26 +68,6 @@ var lista= (function(){
 			showList();
 		},
 
-		checkItem : function(id){
-			for (var i=0; i< itemsList.length; i++) {
-				if (itemsList[i].id==id){
-					itemsList[i].checked=true;
-
-				}
-			}
-			showList();
-		},
-
-		uncheckItem : function(id){
-			for (var i=0; i< itemsList.length; i++) {
-				if (itemsList[i].id==id){
-					itemsList[i].checked=false;
-
-				}
-			}
-			showList();
-		},
-
 		checkUncheck : function(id){
 			for (var i=0; i< itemsList.length; i++) {
 				if (itemsList[i].id==id){
@@ -146,24 +126,6 @@ function showList(){
 			}
 
 			li.appendChild(check);
-			/*var buttonCheck = document.createElement("input");
-			buttonCheck.setAttribute("type","button");
-			buttonCheck.setAttribute("style","margin-left:30px");
-			buttonCheck.setAttribute("value","CHECK");
-			buttonCheck.setAttribute("id",itemsList[i].id);
-			buttonCheck.setAttribute("onclick","lista.checkItem("+itemsList[i].id+")");
-
-			li.appendChild(buttonCheck);
-
-			var buttonUncheck = document.createElement("input");
-			buttonUncheck.setAttribute("type","button");
-			buttonUncheck.setAttribute("style","margin-left:30px");
-			buttonUncheck.setAttribute("value","UNCHECK");
-			buttonUncheck.setAttribute("id",itemsList[i].id);
-			buttonUncheck.setAttribute("onclick","lista.uncheckItem("+itemsList[i].id+")");
-
-			li.appendChild(buttonUncheck);*/
-
 
 			var buttonDel = document.createElement("input");
 			buttonDel.setAttribute("name","delButton");
