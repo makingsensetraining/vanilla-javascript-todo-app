@@ -88,6 +88,19 @@ var lista= (function(){
 			showList();
 		},
 
+		checkUncheck : function(id){
+			for (var i=0; i< itemsList.length; i++) {
+				if (itemsList[i].id==id){
+						if(itemsList[i].checked){
+							itemsList[i].checked=false;
+						}else{
+							itemsList[i].checked=true;
+						}
+				}
+			}
+			showList();
+		},
+
 		returnItems : function(){
 			return itemsList;
 		}
@@ -101,6 +114,7 @@ document.getElementById("inputText").addEventListener("keyup", function(event) {
         document.getElementById("addButton").click();
     }
 });
+
 
 function showList(){
 	var ul = document.getElementById("lista");
@@ -122,7 +136,17 @@ function showList(){
 				li.setAttribute("style", "text-decoration:line-through");
 			}
 
-			var buttonCheck = document.createElement("input");
+			var check = document.createElement("input");
+			check.setAttribute("type","checkbox");
+			check.setAttribute("id",itemsList[i].id);
+			check.setAttribute("onclick","lista.checkUncheck("+itemsList[i].id+")");
+			if (itemsList[i].checked){
+
+				check.setAttribute("checked","true");
+			}
+
+			li.appendChild(check);
+			/*var buttonCheck = document.createElement("input");
 			buttonCheck.setAttribute("type","button");
 			buttonCheck.setAttribute("style","margin-left:30px");
 			buttonCheck.setAttribute("value","CHECK");
@@ -138,7 +162,7 @@ function showList(){
 			buttonUncheck.setAttribute("id",itemsList[i].id);
 			buttonUncheck.setAttribute("onclick","lista.uncheckItem("+itemsList[i].id+")");
 
-			li.appendChild(buttonUncheck);
+			li.appendChild(buttonUncheck);*/
 
 
 			var buttonDel = document.createElement("input");
