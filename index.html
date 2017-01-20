@@ -37,18 +37,54 @@
 var button = document.getElementById("addButton");
 
 
-function item (desc){
+function item (id, desc){
+	  this.id = id;
 		this.desc= desc;
+		this.checked=false;
 };
 
 var lista= (function(){
 	var itemsList=[];
+  var id = 0;
 
 	return{
-		addItem : function(){
-			var newItem = new item(document.getElementById('inputText').value);
 
-			itemsList.push(newItem);
+		addItem : function(){
+			var newItem = new item(id ,document.getElementById('inputText').value);
+      if (newItem.desc.length!=0){
+				itemsList.push(newItem);
+				showList();
+				id++;
+			}
+		},
+
+		removeItem : function(id){
+			for (var i=0; i< itemsList.length; i++) {
+				if (itemsList[i].id==id){
+					itemsList.splice(i, 1);
+
+				}
+			}
+			showList();
+		},
+
+		checkItem : function(id){
+			for (var i=0; i< itemsList.length; i++) {
+				if (itemsList[i].id==id){
+					itemsList[i].checked=true;
+
+				}
+			}
+			showList();
+		},
+
+		uncheckItem : function(id){
+			for (var i=0; i< itemsList.length; i++) {
+				if (itemsList[i].id==id){
+					itemsList[i].checked=false;
+
+				}
+			}
 			showList();
 		},
 
@@ -79,8 +115,45 @@ function showList(){
 
 	for (var i=0; i< itemsList.length; i++) {
 			var li = document.createElement("li");
+			li.setAttribute("id",itemsList[i].id);
+
 			li.appendChild(document.createTextNode(itemsList[i].desc));
+			if(itemsList[i].checked){
+				li.setAttribute("style", "text-decoration:line-through");
+			}
+
+			var buttonCheck = document.createElement("input");
+			buttonCheck.setAttribute("type","button");
+			buttonCheck.setAttribute("style","margin-left:30px");
+			buttonCheck.setAttribute("value","CHECK");
+			buttonCheck.setAttribute("id",itemsList[i].id);
+			buttonCheck.setAttribute("onclick","lista.checkItem("+itemsList[i].id+")");
+
+			li.appendChild(buttonCheck);
+
+			var buttonUncheck = document.createElement("input");
+			buttonUncheck.setAttribute("type","button");
+			buttonUncheck.setAttribute("style","margin-left:30px");
+			buttonUncheck.setAttribute("value","UNCHECK");
+			buttonUncheck.setAttribute("id",itemsList[i].id);
+			buttonUncheck.setAttribute("onclick","lista.uncheckItem("+itemsList[i].id+")");
+
+			li.appendChild(buttonUncheck);
+
+
+			var buttonDel = document.createElement("input");
+			buttonDel.setAttribute("name","delButton");
+			buttonDel.setAttribute("type","button");
+			buttonDel.setAttribute("style","margin-left:30px");
+			buttonDel.setAttribute("value","DEL");
+			buttonDel.setAttribute("id",itemsList[i].id);
+			buttonDel.setAttribute("onclick","lista.removeItem("+itemsList[i].id+")");
+
+			li.appendChild(buttonDel);
+
+
 			ul.appendChild(li);
+
 			texto.value="";
 	}
 }
