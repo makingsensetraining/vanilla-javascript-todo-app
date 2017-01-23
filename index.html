@@ -35,7 +35,7 @@
 
 
 var button = document.getElementById("addButton");
-
+var texto = document.getElementById("inputText");
 
 function item (id, desc){
 	  this.id = id;
@@ -55,6 +55,7 @@ var lista= (function(){
 				itemsList.push(newItem);
 				showList();
 				id++;
+				texto.value="";
 			}
 		},
 
@@ -62,7 +63,6 @@ var lista= (function(){
 			for (var i=0; i< itemsList.length; i++) {
 				if (itemsList[i].id==id){
 					itemsList.splice(i, 1);
-
 				}
 			}
 			showList();
@@ -88,6 +88,7 @@ var lista= (function(){
 	}
 })();
 
+//Add event to Enter key up
 document.getElementById("inputText").addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode == 13) {
@@ -97,36 +98,37 @@ document.getElementById("inputText").addEventListener("keyup", function(event) {
 
 
 function showList(){
-	var ul = document.getElementById("lista");
-	if (ul) {
-     while (ul.firstChild) {
-       ul.removeChild(ul.firstChild);
+		var ul = document.getElementById("lista");
+		if (ul) {
+     		while (ul.firstChild) {
+       	ul.removeChild(ul.firstChild);
+				}
+		}
 
-		 }
-	}
-	var texto = document.getElementById("inputText");
-  var itemsList = lista.returnItems();
+  	var itemsList = lista.returnItems();
 
-	for (var i=0; i< itemsList.length; i++) {
+		for (var i=0; i< itemsList.length; i++) {
+
+			//Element <li>
 			var li = document.createElement("li");
 			li.setAttribute("id",itemsList[i].id);
 
 			li.appendChild(document.createTextNode(itemsList[i].desc));
-			if(itemsList[i].checked){
-				li.setAttribute("style", "text-decoration:line-through");
-			}
 
+			//Element <input type="checkbox">
 			var check = document.createElement("input");
 			check.setAttribute("type","checkbox");
 			check.setAttribute("id",itemsList[i].id);
 			check.setAttribute("onclick","lista.checkUncheck("+itemsList[i].id+")");
-			if (itemsList[i].checked){
 
+			if (itemsList[i].checked){
+				li.setAttribute("style", "text-decoration:line-through; color:red");
 				check.setAttribute("checked","true");
 			}
 
 			li.appendChild(check);
 
+      //Element <input type="button">
 			var buttonDel = document.createElement("input");
 			buttonDel.setAttribute("name","delButton");
 			buttonDel.setAttribute("type","button");
@@ -137,10 +139,7 @@ function showList(){
 
 			li.appendChild(buttonDel);
 
-
 			ul.appendChild(li);
-
-			texto.value="";
 	}
 }
 
