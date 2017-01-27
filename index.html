@@ -1,151 +1,199 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html>
 
-<style>
-@media only screen and (max-width: 800px) {
-	.less-padding{padding-left:10% !important}
-}
+<head>
+	<meta charset="UTF-8">
 
-</style>
+	<style>
+		[name="checkItem"] {
+			vertical-align: middle;
+		}
+
+		[name="deleteButton"] {
+			margin-left: 30px;
+			vertical-align: middle;
+		}
+
+		#ItemDescription {
+			width: 80%;
+			display: inline-block;
+			margin-right: 15px;
+		}
+
+		#addButton {
+			display: inline;
+			width: 20%;
+		}
+
+		.conteiner {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			max-width: 560px;
+		}
+
+		.div-description {
+			width: 80%;
+		}
+
+		.div-actions {
+			width: 20%;
+		}
+
+		li {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0;
+			margin: 0;
+			padding: 16px;
+			box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .3);
+			background: #fff;
+		}
+
+		ul {
+			text-align: left;
+			padding: 0;
+			margin: 0;
+			margin-top: 5%;
+		}
+	</style>
 </head>
+
 <body bgcolor="#E9E7F1">
+	<div align="center" style="padding-top:30px; width:100%">
+		<span style="font-size:48px; line-height:50px; font-family:Arial, Helvetica, sans-serif, Geneva, sans-serif; font-weight:bold; color: #333333">TO-DO LIST</span>
+	</div>
+	<div align="center" width="100%" style="padding-top:60px">
+		<div style="width:100%; max-width:900px" align="center">
+			<div class="conteiner">
+				<input type="text" id="ItemDescription" />
+				<input type="button" value="OK" id="addButton" />
+			</div>
+			<div align="center" style="text-align:center;width:100%; max-width:560px">
+				<ul id="toDoList" style="text-align:left;">
+				</ul>
+			</div>
+		</div>
+	</div>
 
+	<script type="application/javascript">
+		var addButtonElement = document.getElementById("addButton");
+		var itemDescriptionElement = document.getElementById("ItemDescription");
+		var toDoListElement = document.getElementById("toDoList");
 
-<div align="center" style="padding-top:30px; width:100%">
-<span style="font-size:48px; line-height:50px; font-family:Arial, Helvetica, sans-serif, Geneva, sans-serif; font-weight:bold; color: #333333">TO-DO LIST</span>
-</div>
-<div align="center" width="100%" style="padding-top:60px">
-<div style="width:100%; max-width:900px" align="center">
-    <div>
-    <input type="text" id="inputText" style="width:80%; max-width:500px; display:inline-block"/>
-    <input type="button" value="OK" id="addButton" style="display:inline"/>
-    </div>
+		function item(id, desc) {
+			this.id = id;
+			this.desc = desc;
+			this.checked = false;
+		};
 
-    <div align="center" style="text-align:center">
+		var toDoList = (function() {
+			var itemsList = [];
+			var id = 0;
 
-    <ul id="lista" style="text-align:left; padding-left:22%" class="less-padding">
+			return {
+				addItem: function() {
+					if (itemDescriptionElement.value.length != 0) {
+						var newItem = new item(id, itemDescriptionElement.value);
+						itemsList.push(newItem);
+						showList();
+						id++;
+						itemDescriptionElement.value = "";
+					}
+				},
 
-    </ul>
-
-    </div>
-</div>
-</div>
-
-<script type="application/javascript">
-
-
-var button = document.getElementById("addButton");
-var texto = document.getElementById("inputText");
-
-function item (id, desc){
-	  this.id = id;
-		this.desc= desc;
-		this.checked=false;
-};
-
-var lista= (function(){
-	var itemsList=[];
-  var id = 0;
-
-	return{
-
-		addItem : function(){
-			var newItem = new item(id ,document.getElementById('inputText').value);
-      if (newItem.desc.length!=0){
-				itemsList.push(newItem);
-				showList();
-				id++;
-				texto.value="";
-			}
-		},
-
-		removeItem : function(id){
-			for (var i=0; i< itemsList.length; i++) {
-				if (itemsList[i].id==id){
-					itemsList.splice(i, 1);
-				}
-			}
-			showList();
-		},
-
-		checkUncheck : function(id){
-			for (var i=0; i< itemsList.length; i++) {
-				if (itemsList[i].id==id){
-						if(itemsList[i].checked){
-							itemsList[i].checked=false;
-						}else{
-							itemsList[i].checked=true;
+				removeItem: function(id) {
+					for (var i = 0; i < itemsList.length; i++) {
+						if (itemsList[i].id == id) {
+							itemsList.splice(i, 1);
 						}
+					}
+					showList();
+				},
+
+				checkUncheck: function(id) {
+					for (var i = 0; i < itemsList.length; i++) {
+						if (itemsList[i].id == id) {
+							if (itemsList[i].checked) {
+								itemsList[i].checked = false;
+							} else {
+								itemsList[i].checked = true;
+							}
+						}
+					}
+					showList();
+				},
+
+				returnItems: function() {
+					return itemsList;
 				}
 			}
-			showList();
-		},
+		})();
 
-		returnItems : function(){
-			return itemsList;
-		}
+		function showList() {
 
-	}
-})();
-
-//Add event to Enter key up
-document.getElementById("inputText").addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode == 13) {
-        document.getElementById("addButton").click();
-    }
-});
-
-
-function showList(){
-		var ul = document.getElementById("lista");
-		if (ul) {
-     		while (ul.firstChild) {
-       	ul.removeChild(ul.firstChild);
+			if (toDoListElement) {
+				while (toDoListElement.firstChild) {
+					toDoListElement.removeChild(toDoListElement.firstChild);
 				}
-		}
-
-  	var itemsList = lista.returnItems();
-
-		for (var i=0; i< itemsList.length; i++) {
-
-			//Element <li>
-			var li = document.createElement("li");
-			li.setAttribute("id",itemsList[i].id);
-
-			li.appendChild(document.createTextNode(itemsList[i].desc));
-
-			//Element <input type="checkbox">
-			var check = document.createElement("input");
-			check.setAttribute("type","checkbox");
-			check.setAttribute("id",itemsList[i].id);
-			check.setAttribute("onclick","lista.checkUncheck("+itemsList[i].id+")");
-
-			if (itemsList[i].checked){
-				li.setAttribute("style", "text-decoration:line-through; color:red");
-				check.setAttribute("checked","true");
 			}
 
-			li.appendChild(check);
+			var itemsList = toDoList.returnItems();
 
-      //Element <input type="button">
-			var buttonDel = document.createElement("input");
-			buttonDel.setAttribute("name","delButton");
-			buttonDel.setAttribute("type","button");
-			buttonDel.setAttribute("style","margin-left:30px");
-			buttonDel.setAttribute("value","DEL");
-			buttonDel.setAttribute("id",itemsList[i].id);
-			buttonDel.setAttribute("onclick","lista.removeItem("+itemsList[i].id+")");
+			for (var i = 0; i < itemsList.length; i++) {
 
-			li.appendChild(buttonDel);
+				var itemElement = document.createElement("li");
+				itemElement.setAttribute("id", itemsList[i].id);
 
-			ul.appendChild(li);
-	}
-}
+				var itemDescriptionConteinerElement = document.createElement("div");
+				itemDescriptionConteinerElement.setAttribute("class", "div-description")
+				itemDescriptionConteinerElement.appendChild(document.createTextNode(itemsList[i].desc));
+				itemElement.appendChild(itemDescriptionConteinerElement);
 
-button.onclick=lista.addItem;
+				var actionsConteinerElement = document.createElement("div");
+				actionsConteinerElement.setAttribute("class", "div-actions")
 
-</script>
+				var checkboxElement = document.createElement("input");
+				checkboxElement.setAttribute("type", "checkbox");
+				checkboxElement.setAttribute("name", "checkItem");
+				checkboxElement.setAttribute("id", itemsList[i].id);
+				checkboxElement.setAttribute("onclick", "toDoList.checkUncheck(" + itemsList[i].id + ")");
+				if (itemsList[i].checked) {
+					itemElement.setAttribute("style", "text-decoration:line-through; color:red");
+					checkboxElement.setAttribute("checked", "true");
+				}
+				actionsConteinerElement.appendChild(checkboxElement);
+
+				var deleteButtonElement = document.createElement("input");
+				deleteButtonElement.setAttribute("name", "deleteButton");
+				deleteButtonElement.setAttribute("type", "button");
+				deleteButtonElement.setAttribute("style", "margin-left:30px");
+				deleteButtonElement.setAttribute("value", "DEL");
+				deleteButtonElement.setAttribute("id", itemsList[i].id);
+				deleteButtonElement.setAttribute("onclick", "toDoList.removeItem(" + itemsList[i].id + ")");
+				actionsConteinerElement.appendChild(deleteButtonElement);
+
+				itemElement.appendChild(actionsConteinerElement);
+
+				toDoListElement.appendChild(itemElement);
+			}
+		}
+
+		//Add event to Enter key up
+		itemDescriptionElement.addEventListener("keyup", function(event) {
+			event.preventDefault();
+			if (event.keyCode == 13) {
+				toDoList.addItem();
+			}
+		});
+
+		addButtonElement.onclick = toDoList.addItem;
+	</script>
 
 </body>
+
 </html>
