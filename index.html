@@ -2,11 +2,39 @@
 <html>
 
 <head>
+	<title>TO-DO LIST =)</title>
 	<meta charset="UTF-8">
 
 	<style>
 		body {
-			background-color: #E9E7F1;
+			background-color: #DFDFDF;
+		}
+
+		li {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0;
+			margin: 0;
+			padding: 16px;
+			box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .3);
+			background: #fff;
+		}
+
+		ul {
+			text-align: left;
+			padding: 0;
+			margin: 0;
+			margin-top: 5%;
+		}
+
+		h1 {
+			font-size: 72px;
+			line-height: 50px;
+			font-family: Arial, Helvetica, sans-serif, Geneva, sans-serif;
+			font-weight: bold;
+			color: #ffffff;
+			text-shadow: 3px 3px 5px #A64DFF, 6px 6px 5px #FF8000, 9px 9px 5px #6DD900;
 		}
 
 		[name="checkItem"] {
@@ -18,13 +46,13 @@
 			vertical-align: middle;
 		}
 
-		#ItemDescription {
+		.item-description {
 			width: 80%;
 			display: inline-block;
 			margin-right: 15px;
 		}
 
-		#addButton {
+		.add-button {
 			display: inline;
 			width: 20%;
 		}
@@ -75,47 +103,30 @@
 			width: 20%;
 		}
 
-		.title {
-			font-size: 48px;
-			line-height: 50px;
-			font-family: Arial, Helvetica, sans-serif, Geneva, sans-serif;
-			font-weight: bold;
-			color: #333333;
-		}
-
 		.item {
 			text-align: left;
 		}
 
-		li {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 0;
-			margin: 0;
-			padding: 16px;
-			box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .3);
-			background: #fff;
+		.item-selected {
+			text-decoration: line-through;
+			color: red
 		}
 
-		ul {
-			text-align: left;
-			padding: 0;
-			margin: 0;
-			margin-top: 5%;
+		.delete-button {
+			margin-left: 30px;
 		}
 	</style>
 </head>
 
 <body>
 	<div align="center" class="title-conteiner">
-		<span class="title">TO-DO LIST</span>
+		<h1>TO-DO LIST</h1>
 	</div>
 	<div class="todolist-conteiner">
 		<div class="todolist">
 			<div class="conteiner">
-				<input type="text" id="ItemDescription" />
-				<input type="button" value="OK" id="addButton" />
+				<input type="text" class="item-description" id="ItemDescription" />
+				<input type="button" value="OK" class="add-button" id="addButton" />
 			</div>
 			<div class="items-conteiner">
 				<ul id="toDoList" class="item">
@@ -128,90 +139,99 @@
 		var addButtonElement = document.getElementById("addButton");
 		var itemDescriptionElement = document.getElementById("ItemDescription");
 		var toDoListElement = document.getElementById("toDoList");
-		var id = 0;
 
-		function item(id, description) {
-			this.id = id;
-			this.description = description;
-			this.checked = false;
-			this.removed = false;
-		};
+		var item = (function() {
+			var id = 0;
 
-		function createItem(description){
-			var newItem = new item(id, itemDescriptionElement.value);
-			id++;
-			return newItem;
-		}
+			return function(description) {
+				this.id = id++;
+				this.description = description;
+				this.checked = false;
+				this.removed = false;
+			}
+
+		})();
 
 		var toDoList = (function() {
 			var itemsList = [];
 
 			return {
-				addItem: function(newItem) {
-						itemsList[newItem.id] = newItem;
-						var itemElement = createItemElement(newItem.id, newItem.description, false);
-						toDoListElement.appendChild(itemElement);
-						itemDescriptionElement.value = "";
+				addItem: function(description) {
+					//Create new item and add to the model
+					var newItem = new item(description);
+					itemsList.push(newItem);
+					//Add to the view
+					var itemElement = createItemElement(newItem.id, newItem.description);
+					toDoListElement.appendChild(itemElement);
+					//Clear the text-box
+					itemDescriptionElement.value = "";
 				},
 
 				removeItem: function(id) {
 					var itemSelected = document.getElementById("item" + id);
+					//Remove from the model
 					itemsList[id].removed = true;
+					//Remove from the view
 					toDoListElement.removeChild(itemSelected);
-
-
 				},
 
 				checkUncheck: function(id) {
-					var itemSelected = document.getElementById("item" + id);
-
-
+					var itemSelectedText = document.getElementById("descriptionText" + id);
 					if (itemsList[id].checked) {
+						//Model
 						itemsList[id].checked = false;
-						itemSelected.setAttribute("style", "");
+						//View
+						itemSelectedText.setAttribute("class", "");
 					} else {
+						//Model
 						itemsList[id].checked = true;
-						itemSelected.setAttribute("style", "text-decoration:line-through; color:red");
+						//View
+						itemSelectedText.setAttribute("class", "item-selected");
 					}
-
-
-				},
-
-				returnItems: function() {
-					return itemsList;
 				}
 			}
 		})();
 
-		function createItemElement(id, desciption, checked) {
+		//Create the HTML structure for the items
+		function createItemElement(id, desciption) {
+			//<li id="item#">
 			var itemElement = document.createElement("li");
 			itemElement.setAttribute("id", "item" + id);
 
+			//<div class="div-description" id="divDescription#">
 			var itemDescriptionConteinerElement = document.createElement("div");
 			itemDescriptionConteinerElement.setAttribute("class", "div-description")
-			itemDescriptionConteinerElement.appendChild(document.createTextNode(desciption));
+			itemDescriptionConteinerElement.setAttribute("id", "divDescription" + id);
+
+			//<span id="descriptiontext#"> Text </span></div>
+			var descriptionText = document.createElement("span");
+			descriptionText.setAttribute("id", "descriptionText" + id);
+			descriptionText.appendChild(document.createTextNode(desciption));
+			itemDescriptionConteinerElement.appendChild(descriptionText);
+
 			itemElement.appendChild(itemDescriptionConteinerElement);
 
+			//<div class="div-actions">
 			var actionsConteinerElement = document.createElement("div");
 			actionsConteinerElement.setAttribute("class", "div-actions")
 
+			//<imput type="checkbox" name="checkItem" id="checkbox#" onclick="toDoList.checkUncheck(#)">
 			var checkboxElement = document.createElement("input");
 			checkboxElement.setAttribute("type", "checkbox");
 			checkboxElement.setAttribute("name", "checkItem");
-			checkboxElement.setAttribute("id", "checkbox" + id);
+			var idCheckbox = "checkbox" + id;
+			checkboxElement.setAttribute("id", idCheckbox);
 			checkboxElement.setAttribute("onclick", "toDoList.checkUncheck(" + id + ")");
-			if (checked) {
-				itemElement.setAttribute("style", "text-decoration:line-through; color:red");
-				checkboxElement.setAttribute("checked", "true");
-			}
 			actionsConteinerElement.appendChild(checkboxElement);
 
+			//<imput type="button" name="deleteButton" class="delete-button" value="DEL" id="deleteButton#" onclick="todoList.removeItem(#)"></div></li>
 			var deleteButtonElement = document.createElement("input");
 			deleteButtonElement.setAttribute("name", "deleteButton");
 			deleteButtonElement.setAttribute("type", "button");
-			deleteButtonElement.setAttribute("style", "margin-left:30px");
+			deleteButtonElement.setAttribute("class", "delete-button");
 			deleteButtonElement.setAttribute("value", "DEL");
-			deleteButtonElement.setAttribute("id", "deleteButton" + id);
+			var idDeleteButton = "deleteButton" + id;
+			deleteButtonElement.setAttribute("id", idDeleteButton);
 			deleteButtonElement.setAttribute("onclick", "toDoList.removeItem(" + id + ")");
 			actionsConteinerElement.appendChild(deleteButtonElement);
 
@@ -220,24 +240,23 @@
 			return itemElement;
 		}
 
+		function sendDescriptionValue() {
+			if (itemDescriptionElement.value.length != 0) {
+				toDoList.addItem(itemDescriptionElement.value);
+			}
+		}
+
 		//Add event to Enter key up
 		itemDescriptionElement.addEventListener("keyup", function(event) {
-			event.preventDefault();
 			if (event.keyCode == 13) {
-				if (itemDescriptionElement.value.length != 0) {
-					var newItem = createItem(itemDescriptionElement.value);
-					toDoList.addItem(newItem);
-				}
+				sendDescriptionValue();
 			}
 		});
 
-		addButtonElement.addEventListener("click", function(event) {
-			event.preventDefault();
-			if (itemDescriptionElement.value.length != 0) {
-				var newItem = createItem(itemDescriptionElement.value);
-				toDoList.addItem(newItem);
-			}
-		});
+		//Add function for onclick event
+		addButtonElement.onclick = function() {
+			sendDescriptionValue();
+		}
 	</script>
 
 </body>
