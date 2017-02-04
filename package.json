@@ -1,0 +1,28 @@
+{
+  "name": "vanilla-javascript-todo-app",
+  "version": "0.1.0",
+  "description": "To Do app made in vanilla JavaScript",
+  "main": "server.js",
+  "scripts": {
+    "start": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makingsensetraining/vanilla-javascript-todo-app.git"
+  },
+  "keywords": [
+    "todo",
+    "app",
+    "vanilla",
+    "javascript"
+  ],
+  "author": "makingsensetraining",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/makingsensetraining/vanilla-javascript-todo-app/issues"
+  },
+  "homepage": "https://github.com/makingsensetraining/vanilla-javascript-todo-app#readme",
+  "dependencies": {
+    "express": "~4.14.1"
+  }
+}
