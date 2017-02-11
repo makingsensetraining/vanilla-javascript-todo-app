@@ -1,0 +1,109 @@
+body {
+  background-color: #DFDFDF;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  padding: 16px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .3);
+  background: #fff;
+}
+
+ul {
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  margin-top: 5%;
+}
+
+h1 {
+  font-size: 72px;
+  line-height: 50px;
+  font-family: Arial, Helvetica, sans-serif, Geneva, sans-serif;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 3px 3px 5px #A64DFF, 6px 6px 5px #FF8000, 9px 9px 5px #6DD900;
+}
+
+[name="checkItem"] {
+  vertical-align: middle;
+}
+
+[name="deleteButton"] {
+  margin-left: 30px;
+  vertical-align: middle;
+}
+
+.item-description {
+  width: 80%;
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.add-button {
+  display: inline;
+  width: 20%;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.div-description {
+  width: 80%;
+}
+
+.title-container {
+  padding-top: 30px;
+  width: 100%
+}
+
+.todolist-container {
+  width: 100%;
+  padding-top: 60px;
+  text-align: center;
+}
+
+.todolist {
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
+.items-container {
+  text-align: center;
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.div-actions {
+  width: 20%;
+}
+
+.item {
+  text-align: left;
+}
+
+.item-selected {
+  text-decoration: line-through;
+  color: red
+}
+
+.delete-button {
+  margin-left: 30px;
+}
