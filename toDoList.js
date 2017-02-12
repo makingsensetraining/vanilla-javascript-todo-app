@@ -68,10 +68,9 @@ function createItemElement(id, desciption) {
   var itemElement = document.createElement("li");
   itemElement.setAttribute("id", "item" + id);
 
-  //<div class="div-description" id="divDescription#">
+  //<div class="div-description">
   var itemDescriptioncontainerElement = document.createElement("div");
   itemDescriptioncontainerElement.setAttribute("class", "div-description")
-  itemDescriptioncontainerElement.setAttribute("id", "divDescription" + id);
 
   //<span id="descriptiontext#"> Text </span></div>
   var descriptionText = document.createElement("span");
@@ -85,24 +84,23 @@ function createItemElement(id, desciption) {
   var actionscontainerElement = document.createElement("div");
   actionscontainerElement.setAttribute("class", "div-actions")
 
-  //<imput type="checkbox" name="checkItem" id="checkbox#" onclick="toDoList.toggleDone(#)">
+  //<imput type="checkbox">
   var checkboxElement = document.createElement("input");
   checkboxElement.setAttribute("type", "checkbox");
-  checkboxElement.setAttribute("name", "checkItem");
-  var idCheckbox = "checkbox" + id;
-  checkboxElement.setAttribute("id", idCheckbox);
-  checkboxElement.setAttribute("onclick", "toDoList.toggleDone(" + id + ")");
+  checkboxElement.addEventListener("click", function(e) {
+    toDoList.toggleDone(id);
+  })
+
   actionscontainerElement.appendChild(checkboxElement);
 
-  //<imput type="button" name="deleteButton" class="delete-button" value="DEL" id="deleteButton#" onclick="todoList.removeItem(#)"></div></li>
-  var deleteButtonElement = document.createElement("input");
-  deleteButtonElement.setAttribute("name", "deleteButton");
-  deleteButtonElement.setAttribute("type", "button");
+  //<imput type="button" class="delete-button"></div></li>
+  var deleteButtonElement = document.createElement("button");
+  deleteButtonElement.appendChild(document.createTextNode("DEL"));
   deleteButtonElement.setAttribute("class", "delete-button");
-  deleteButtonElement.setAttribute("value", "DEL");
-  var idDeleteButton = "deleteButton" + id;
-  deleteButtonElement.setAttribute("id", idDeleteButton);
-  deleteButtonElement.setAttribute("onclick", "toDoList.removeItem(" + id + ")");
+  deleteButtonElement.addEventListener("click", function(e) {
+    toDoList.removeItem(id);
+  })
+
   actionscontainerElement.appendChild(deleteButtonElement);
 
   itemElement.appendChild(actionscontainerElement);
