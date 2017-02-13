@@ -6,6 +6,8 @@ app.get('/items', function (req, res) {
   res.json(items);
 });
 
+app.use(express.static('.'));
+
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
