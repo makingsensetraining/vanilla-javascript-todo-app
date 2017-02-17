@@ -1,0 +1,21 @@
+[{
+  "id": 1,
+  "description": "Buy some stuff",
+  "checked": false
+}, {
+  "id": 2,
+  "description": "Pick John from school",
+  "checked": false
+}, {
+  "id": 3,
+  "description": "Call Jane",
+  "checked": true
+}, {
+  "id": 4,
+  "description": "Repair the table",
+  "checked": false
+}, {
+  "id": 5,
+  "description": "Make a reservation",
+  "checked": false
+}]
