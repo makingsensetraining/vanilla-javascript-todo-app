@@ -1,6 +1,4 @@
 var app = (function() {
-  return {
-    start: function() {
       var addButtonElement = document.getElementById("addButton");
       var itemDescriptionElement = document.getElementById("ItemDescription");
       var toDoListElement = document.getElementById("toDoList");
@@ -140,9 +138,4 @@ var app = (function() {
       addButtonElement.onclick = function() {
         sendDescriptionValue();
       };
-    }
-  }
-
 })();
-
-app.start();
